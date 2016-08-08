@@ -17,7 +17,7 @@ WindowMaker的几个优点:
 - 绝大部分设置（全局快捷键也可以！）可以通过自带的WPrefs程序即可设置，不必自己编辑配置文件，并且大多数是即时生效的;
 - 整体功能比较紧凑，不会需要很多额外的扩展包（是的，听说fvwm是有很强的可配置性，可我难得折腾）
 - Cygwin官方仓库有这个程序（在我这个场景里是挺重要的一点）
-- 而且，整体小巧、快捷，占用的内存少，所以很适合我的这两个场景（Cygwin和Raspbian）
+- 而且，整体小巧、快捷，占用的内存少，依赖也比较少，所以很适合我的这两个场景（Cygwin和Raspbian）
 
 当然，缺点也挺明显
 
@@ -28,7 +28,7 @@ WindowMaker的几个优点:
 
 - [Window Maker - ArchWiki](https://wiki.archlinux.org/index.php/Window_Maker )
 - [In Depth: 5 of the best lightweight window managers for Linux](http://technetyes.blogspot.com/2011/07/techradar_03.html ) （被薔，我放了一份副本在[这里](https://bamanzi.github.io/scrapbook2016/data/20160718063037/index.html ) ）
-- [Why I use Window Maker | UNIX Administratosphere](https://administratosphere.wordpress.com/2011/07/05/why-i-use-window-maker/ )
+- [Why I use Window Maker - UNIX Administratosphere](https://administratosphere.wordpress.com/2011/07/05/why-i-use-window-maker/ )
 
 
 ## dock/clip是任务栏吗
@@ -57,7 +57,9 @@ WindowMaker的几个优点:
 >
 > 这两天发现一个更好的解决办法，不用纠结于上面这些烦人的问题了： 直接跑一个其它桌面(desktop environment)里面的面板就可以了——当然，是要那种能够支持任务列表(task list)的面板，这样wmaker的dock就只是用作大家通常意义上理解的dock，也就是用于启动常用应用和收纳一些dockapps
 >
-> 当然，我们最好是挑一个依赖比较少的面板。树莓派Raspbian里面默认就有的 [lxpanel](http://wiki.lxde.org/en/LXPanel ) 是一个不错的选择，而且它还有“通知栏”插件，下面的 /wmsystemtray/ 也可以不用装了。
+> 当然，我们最好是挑一个依赖比较少的面板。树莓派Raspbian里面默认就有的 [lxpanel](http://wiki.lxde.org/en/LXPanel ) 是一个不错的选择，而且它还有“通知栏”插件，下面说到的 wmsystemtray/ 也可以不用装了。
+>
+> 这里有一个WindowMaker + LXPanel的效果图: https://www.vivaolinux.com.br/screenshot/Window-Maker-WMaker-green-Lxpanel-no-Linux-Mint-17/
 
 ## dockapps
 
@@ -67,7 +69,7 @@ dockapps其实只是一些小程序，不过程序窗口都跟wmaker的dock图�
 
 - wmaker官网上的dockapps列表：http://windowmaker.org/dockapps/
 - Debian WindowMaker Team 维护的应用列表（里面里面除了wmaker其它大部分都是dockapps）https://qa.debian.org/developer.php?login=pkg-wmaker-devel%40lists.alioth.debian.org
-- openbox的网页上有一个比较全的dockapps详细说明（含截图） http://lxlinux.com/dock.html
+- openbox的网页上有一个比较全的dockapps一览表（每个都有功能说明和截图） http://lxlinux.com/dock.html
 
 ## 自动启动程序
 
@@ -92,14 +94,16 @@ wmcalclock &
 
 现在有很多程序（比如网络管理器、Dropbox、剪贴板监视器Glipper/Parcellite等）会在启动时隐藏主窗口，只在通知栏(system tray / notification area)显示一个图标。所以我们需要以dockapps形式存在的通知栏容器，将那些应用的通知栏图标收纳在里面。
 
-虽然archwiki上推荐的是[stalonetray](http://stalonetray.sf.net ) ，但我实际试验了一下还是[wmsystemtray](http://wmsystemtray.sf.net ) 跟wmaker配合得更好一些，而且也更稳定一些。图标个数增加后，stalonetray大小扩展比较奇怪，这也许跟她的设计目标并不是针对 wmaker 有关; 而wmsystemtray是只能一次显示4个图标，通过一个切换按钮来切换到下一组4个图标。
+虽然archwiki上推荐的是[stalonetray](http://stalonetray.sf.net ) ，但我实际试验了一下还是[wmsystemtray](http://wmsystemtray.sf.net ) 跟wmaker配合得更好一些，而且也更稳定一些。图标个数增加后，stalonetray大小扩展比较奇怪，这也许跟她的设计目标并不是针对 wmaker 有关; 而wmsystemtray是只能一次显示4个图标，通过切换按钮来切换到下一组／上一组4个图标（如果以 `wmsystemtray --small`方式启动，它会采用更小的图标，这样一次可以显示９个图标）．
 
 使用方法:
 
 1. 安装`wmsystemtray`包: `apt install wmsystemtray`
 2. 在上一节所说的 `autostart` 文件中添加一行 `wmsystemtray &` （注意结尾的 `&`），这一行放在前面，确保那些需要显示通知栏图标的程序在之后启动．
 
-![wmsystemtray]
+![wmsystemtray 4 icons](https://bamanzi.github.io/scrapbook2016/data/20160805173353/icon.png )
+![wmsystemtray 9 icons](https://bamanzi.github.io/scrapbook2016/data/20160805173353/screenshot2_001.png )
+(上两图来自: [wmsystemtray - dockapps.windowmaker.org](http://kfo.ath.cx/windowmaker/2012_windowmaker.info/file.php/id/355 )
 
 
 ## window snapping功能
@@ -114,18 +118,20 @@ wmaker也有类似的能力，不仅可以最大化半屏，而且还可以只�
 
 对于WindowMaker自身的功能（比如打开桌面菜单，打开窗口菜单，最大化窗口，切换工作区等），可以在它的偏好设置程序 *WPrefs* 中设置快捷键（这个程序可以通过桌面菜单 *WindowMaker->Preferences*打开，也可以通过命令行`WPrefs`打开．　打开后切换到倒数第五个图标 *Keyboard Shortcut Preferences*即可）
 
-![configuring shortcuts in WPrefs](https://bamanzi.github.io/scrapbook2016/data/20160717165100/keyboardshortcutsprefs.png )
+![configuring shortcuts in WPrefs](https://bamanzi.github.io/scrapbook2016/data/20160717165100/s1600-keyboardshortcutsprefs.png )
 
 如果要设置全局快捷键来启动一个程序（或者执行一段脚本），也是在 *WPrefs* 里面设置，但是在倒数第六个图标 *Applications Menu Definition*　里面．我们得拖一个 *Run Program* 按钮到菜单上，设置对应的快捷键和要运行的命令．
 
-![configuring menu in WPrefs](https://bamanzi.github.io/scrapbook2016/data/20160717165100/applicationsmenudefs.png )
-
-另外有一点要注意: 在默认的X11配置下，NumLock键也是一个修饰键(modifier key)，所以WPrefs设置快捷键时会将这个键考虑在内．比如本来想设置`win+r`这个快捷键，但NumLock打开时，WPrefs会捕捉为 `Mod2+Mod4+r` (我这里NumLock映射为`Mod2`, win键被映射为`Mod4`．用`xmodmap`可以查到这个信息）．然后当你使用时，如果NumLock关闭了，只按 `win+r`　是不能启动这个程序的．
+![configuring menu in WPrefs](https://bamanzi.github.io/scrapbook2016/data/20160717165100/s1600-applicationsmenudefs.png )
 
 参考:
 
-- [Get Productive in Window Maker: Keyboard Shortcuts for Fun and Profit | Window Maker and I: busprof's Blog](http://windowmakerandi.blogspot.com/2013/02/get-productive-in-window-maker-keyboard.html ) （但被薔。我截取了一份副本在[这里](https://bamanzi.github.io/scrapbook2016/data/20160717165100/index.html )）
-- [Num Lock Can Bork Your Keyboard Shortcuts in Window Maker | Window Maker and I: busprof's Blog](http://windowmakerandi.blogspot.com/2013/02/num-lock-can-bork-your-keyboard.html ) （但被薔，我截取了一份副本在[这里](https://bamanzi.github.io/scrapbook2016/data/20160717172455/index.html )）
+- [Get Productive in Window Maker: Keyboard Shortcuts for Fun and Profit - Window Maker and I: busprof's Blog](http://windowmakerandi.blogspot.com/2013/02/get-productive-in-window-maker-keyboard.html ) （但被薔。我截取了一份副本在[这里](https://bamanzi.github.io/scrapbook2016/data/20160717165100/index.html )）
+
+> 另外有一个小细节要注意: 在默认的X11配置下，NumLock键也是一个修饰键(modifier key)，所以WPrefs设置快捷键时会将这个键考虑在内．比如本来想设置`win+r`这个快捷键，但NumLock打开时，WPrefs会捕捉为 `Mod2+Mod4+r` (我这里NumLock映射为`Mod2`, win键被映射为`Mod4`．用`xmodmap`可以查到这个信息）．然后当你使用时，如果NumLock关闭了，只按 `win+r`　是不能启动这个程序的．
+>
+> 详细说明和解决方法可以参考: [Num Lock Can Bork Your Keyboard Shortcuts in Window Maker - Window Maker and I: busprof's Blog](http://windowmakerandi.blogspot.com/2013/02/num-lock-can-bork-your-keyboard.html ) （但被薔，我截取了一份副本在[这里](https://bamanzi.github.io/scrapbook2016/data/20160717172455/index.html )）
+
 
 ## gtk主题
 
